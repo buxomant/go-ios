@@ -565,6 +565,9 @@ func createTestConfigOnDevice(testSessionID uuid.UUID, info testInfo, houseArres
 		return "", nskeyedarchiver.XCTestConfiguration{}, err
 	}
 
+	log.Info(fmt.Sprintf("bundle name: %s", info.targetApp.bundleName))
+	log.Info(fmt.Sprintf("xctestConfigFileName: %s", xctestConfigFileName))
+
 	productModuleName := strings.ReplaceAll(xctestConfigFileName, ".xctest", "")
 	return xctestConfigPath, nskeyedarchiver.NewXCTestConfiguration(productModuleName, testSessionID, info.targetApp.bundleID, info.targetApp.path, testBundleURL, testsToRun, testsToSkip, isXCTest, version), nil
 }
