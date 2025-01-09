@@ -561,6 +561,8 @@ func createTestConfigOnDevice(testSessionID uuid.UUID, info testInfo, houseArres
 		return "", nskeyedarchiver.XCTestConfiguration{}, err
 	}
 
+	log.Info("XCTestConfiguration: " + result)
+
 	err = houseArrestService.SendFile([]byte(result), relativeXcTestConfigPath)
 	if err != nil {
 		return "", nskeyedarchiver.XCTestConfiguration{}, err
