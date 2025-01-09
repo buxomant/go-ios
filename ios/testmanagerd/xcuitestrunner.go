@@ -564,7 +564,9 @@ func createTestConfigOnDevice(testSessionID uuid.UUID, info testInfo, houseArres
 	if err != nil {
 		return "", nskeyedarchiver.XCTestConfiguration{}, err
 	}
-	return xctestConfigPath, nskeyedarchiver.NewXCTestConfiguration(info.targetApp.bundleName, testSessionID, info.targetApp.bundleID, info.targetApp.path, testBundleURL, testsToRun, testsToSkip, isXCTest, version), nil
+
+	productModuleName := strings.ReplaceAll(xctestConfigFileName, ".xctest", "")
+	return xctestConfigPath, nskeyedarchiver.NewXCTestConfiguration(productModuleName, testSessionID, info.targetApp.bundleID, info.targetApp.path, testBundleURL, testsToRun, testsToSkip, isXCTest, version), nil
 }
 
 func createTestConfig(info testInfo, testSessionID uuid.UUID, xctestConfigFileName string, testsToRun []string, testsToSkip []string, isXCTest bool, version *semver.Version) nskeyedarchiver.XCTestConfiguration {
