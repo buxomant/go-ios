@@ -2,7 +2,6 @@ package testmanagerd
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
@@ -566,18 +565,8 @@ func createTestConfigOnDevice(testSessionID uuid.UUID, info testInfo, houseArres
 		return "", nskeyedarchiver.XCTestConfiguration{}, err
 	}
 
-	log.Info(fmt.Sprintf("bundle name: %s", info.targetApp.bundleName))
-	log.Info(fmt.Sprintf("xctestConfigFileName: %s", xctestConfigFileName))
-
 	productModuleName := strings.ReplaceAll(xctestConfigFileName, ".xctest", "")
 	xctestConfig := nskeyedarchiver.NewXCTestConfiguration(productModuleName, testSessionID, info.targetApp.bundleID, info.targetApp.path, testBundleURL, testsToRun, testsToSkip, isXCTest, version)
-
-	jsonBytes, err := json.MarshalIndent(xctestConfig, "", "  ")
-	if err != nil {
-		fmt.Println("Error converting map to JSON:", err)
-		return "", nskeyedarchiver.XCTestConfiguration{}, err
-	}
-	log.Info(fmt.Sprintf("xctestConfig: %s", jsonBytes))
 
 	return xctestConfigPath, xctestConfig, nil
 }

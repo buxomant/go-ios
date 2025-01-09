@@ -1,7 +1,9 @@
 package nskeyedarchiver
 
 import (
+	"encoding/json"
 	"fmt"
+	log "github.com/sirupsen/logrus"
 	"regexp"
 	"time"
 
@@ -173,6 +175,9 @@ func NewXCTestConfiguration(
 		contents["testsToSkip"] = testsToSkipEntry
 		contents["testIdentifiersToSkip"] = testIdentifiersToSkipEntry
 	}
+
+	jsonBytes, _ := json.MarshalIndent(contents, "", "  ")
+	log.Info(fmt.Sprintf("xctestConfig contents: %s", jsonBytes))
 
 	return XCTestConfiguration{contents}
 }
