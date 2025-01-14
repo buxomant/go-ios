@@ -155,7 +155,6 @@ func NewXCTestConfiguration(
 		"expected failure test capability":         true,
 		"test case run configurations":             true,
 		"test timeout capability":                  true,
-		"test iterations":                          true,
 		"request diagnostics for specific devices": true,
 		"delayed attachment transfer":              true,
 		"skipped test capability":                  true,
