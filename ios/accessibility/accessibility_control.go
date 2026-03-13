@@ -219,6 +219,13 @@ func (a *ControlInterface) Move(direction MoveDirection) {
 	a.deviceInspectorMoveWithOptions(direction)
 }
 
+// FocusOnElement re-focuses the current element, triggering a
+// hostInspectorCurrentElementChanged response even if the element hasn't changed.
+// Use AwaitElementChanged to get the response asynchronously.
+func (a *ControlInterface) FocusOnElement() {
+	a.deviceInspectorFocusOnElement()
+}
+
 // AwaitElementChanged waits for timeout if available
 // returns the next element change response.
 func (a *ControlInterface) AwaitElementChanged(ctx context.Context) (AXElementData, error) {
