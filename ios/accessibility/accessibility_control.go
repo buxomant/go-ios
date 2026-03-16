@@ -226,6 +226,31 @@ func (a *ControlInterface) FocusOnElement() {
 	a.deviceInspectorFocusOnElement()
 }
 
+// FocusOnSpecificElement tells the inspector to focus on a specific element
+// identified by its base64-encoded platform element value. This triggers a
+// hostInspectorCurrentElementChanged response and should update the visual highlight.
+func (a *ControlInterface) FocusOnSpecificElement(platformElementValue string) error {
+	platformBytes, err := base64.StdEncoding.DecodeString(platformElementValue)
+	if err != nil {
+		return fmt.Errorf("invalid platformElementValue base64: %w", err)
+	}
+
+	elementArg := nskeyedarchiver.NewNSMutableDictionary(map[string]interface{}{
+		"ObjectType": "AXAuditElement_v1",
+		"Value": nskeyedarchiver.NewNSMutableDictionary(map[string]interface{}{
+			"ObjectType": "passthrough",
+			"Value": nskeyedarchiver.NewNSMutableDictionary(map[string]interface{}{
+				"PlatformElementValue_v1": nskeyedarchiver.NewNSMutableDictionary(map[string]interface{}{
+					"ObjectType": "passthrough",
+					"Value":      platformBytes,
+				}),
+			}),
+		}),
+	})
+
+	return a.channel.MethodCallAsync("deviceInspectorFocusOnElement:", elementArg)
+}
+
 // AwaitElementChanged waits for timeout if available
 // returns the next element change response.
 func (a *ControlInterface) AwaitElementChanged(ctx context.Context) (AXElementData, error) {
