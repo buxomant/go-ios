@@ -652,6 +652,13 @@ func (a *ControlInterface) deviceInspectorSetMonitoredEventType(eventtype uint64
 	return a.channel.MethodCallAsync("deviceInspectorSetMonitoredEventType:", eventtype)
 }
 
+// RefreshVisuals toggles the inspector visuals off and on to force the green
+// highlight rectangle to redraw at the current cursor position.
+func (a *ControlInterface) RefreshVisuals() {
+	a.deviceInspectorShowVisuals(false)
+	a.deviceInspectorShowVisuals(true)
+}
+
 func (a *ControlInterface) deviceInspectorShowVisuals(val bool) error {
 	return a.channel.MethodCallAsync("deviceInspectorShowVisuals:", val)
 }
